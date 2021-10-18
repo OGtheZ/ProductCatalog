@@ -25,9 +25,10 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
 });
 
+//twig template loader
 $loader = new \Twig\Loader\FilesystemLoader('app/Views');
 $templateLoader = new \Twig\Environment($loader, []);
-$templateLoader->addGlobal('id', $_SESSION['id']);
+$templateLoader->addGlobal('id', $_SESSION['id']); // twig global, to show signed-in features on top
 
 // Fetch method and URI from somewhere
 $httpMethod = $_SERVER['REQUEST_METHOD'];
