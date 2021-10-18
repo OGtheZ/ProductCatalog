@@ -1,0 +1,32 @@
+{% extends "app.twig" %}
+{% block content %}
+    <form action="/products/create" method="get">
+        <input type="submit" value="Add">
+    </form>
+    <form action="/products/category" method="post">
+        <label for="categoryId">Category search</label>
+        <select name="categoryId" id="categoryId">
+            <option disabled selected value> -- select an option -- </option>
+            <option value="1">Dairy products</option>
+            <option value="2">Baked products</option>
+            <option value="3">Pasta/macaroni</option>
+            <option value="4">Drinks</option>
+            <option value="5">Meats</option>
+            <option value="6">Vegetables</option>
+        </select>
+        <input type="submit" value="Search">
+    </form>
+    {% for product in products %}
+    <ul>
+        <li> {{ product.getName }} |
+             Category: {{ product.getCategoryName }} |
+             Quantity : {{ product.getQuantity }} |
+             Added : {{ product.getCreatedAt }} |
+             Last edited : {{ product.getEditedAt }}
+        </li>
+    </ul>
+        <a href="/products/{{ product.getId }}/edit">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/products/{{ product.getId }}/remove">Remove</a>
+        <br>
+    {% endfor %}
+{% endblock %}

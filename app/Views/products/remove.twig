@@ -1,0 +1,12 @@
+{% extends "app.twig" %}
+{% block content %}
+
+    <h2>Remove product:</h2>
+    
+    <p>The button below will remove the product: {{ product.getName }}.</p> <br>
+
+    <form action="/products/{{ product.getId }}/remove" method="post">
+        <input type="submit" value="Remove" onclick="return confirm('Are you sure?')">
+    </form>
+    
+{% endblock %}

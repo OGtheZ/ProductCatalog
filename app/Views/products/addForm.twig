@@ -1,0 +1,30 @@
+{% extends "app.twig" %}
+{% block content %}
+    {% if errors %}
+        {% for error in errors %}
+
+            <p style="color: red">{{ error }}</p>
+
+        {% endfor %}
+    {% endif %}
+    <a href="/products">Back</a>
+    <form action="/products" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br>
+        <label for="categoryId">Category:</label>
+        <select name="categoryId" id="categoryId">
+            <option disabled selected value> -- select an option -- </option>
+            <option value="1">Dairy products</option>
+            <option value="2">Baked products</option>
+            <option value="3">Pasta/macaroni</option>
+            <option value="4">Drinks</option>
+            <option value="5">Meats</option>
+            <option value="6">Vegetables</option>
+        </select>
+        <br>
+        <label for="quantity">Quantity:</label>
+        <input type="text" id="quantity" name="quantity"><br>
+        <input type="submit" value="Add">
+    </form>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "app.twig" %}
+{% block content %}
+    {% if errors %}
+    {% for error in errors %}
+
+        <p style="color: red">{{ error }}</p>
+
+    {% endfor %}
+    {% endif %}
+    <br>
+    <a href="/">Back</a><br>
+    <form action="/register" method="post">
+        <label for="email">E-mail:</label>
+        <input type="email" name="email" id="email" placeholder="Enter your email" required><br>
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" placeholder="Enter your username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required><br>
+        <label for="passwordConfirm">Confirm password:</label>
+        <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Repeat your password"required><br>
+        <input type="submit" value="Register">
+    </form>
+
+{% endblock %}
