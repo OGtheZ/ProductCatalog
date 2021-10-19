@@ -11,6 +11,7 @@ use PDOException;
 class MysqlProductsRepository implements ProductsRepository
 {
     private PDO $connection;
+    private MysqlCategoriesRepository $categoriesRepository;
 
     public function __construct()
     {
@@ -21,6 +22,7 @@ class MysqlProductsRepository implements ProductsRepository
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), (int)$e->getCode());
         }
+        $this->categoriesRepository = new MysqlCategoriesRepository();
     }
 
     function getAll(): ProductsCollection
@@ -108,10 +110,11 @@ class MysqlProductsRepository implements ProductsRepository
 
     public function edit(Product $product): void
     {
-        $sql = "UPDATE products SET name = ?, category_id = ?, quantity = ?, edited_at = ? Where id = ?";
+        $sql = "UPDATE products SET name = ?, category_id = ?, category_name = ?, quantity = ?, edited_at = ? Where id = ?";
         $statement = $this->connection->prepare($sql);
         $statement->execute([$_POST['name'],
             $_POST['categoryId'],
+            $this->categoriesRepository->getCategoryName($_POST['categoryId']),
             $_POST['quantity'],
             Carbon::now(),
             $product->getId()

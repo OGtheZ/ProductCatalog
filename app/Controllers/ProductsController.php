@@ -75,9 +75,10 @@ class ProductsController
         if ($id == null) header("Location: /products");
 
         $product = $this->productsRepository->getOne($id);
+        $categories = $this->categoriesRepository->getAll();
 
         return new View('/products/editForm.twig', [
-            'product' => $product
+            'product' => $product, 'categories' => $categories
         ]);
     }
 
