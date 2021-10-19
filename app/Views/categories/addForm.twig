@@ -1,0 +1,16 @@
+{% extends "app.twig" %}
+{% block content %}
+
+    <a href="/products">Back</a><br>
+
+    {% for error in errors %}
+    <p style="color: red; border: darkgreen">{{ error }}</p>
+    {% endfor %}
+
+    <form action="/categories/create" method="post">
+        <label for="name">Category name</label>
+        <input type="text" id="name" name="name">
+        <input type="submit" value="Add">
+    </form>
+
+{% endblock %}

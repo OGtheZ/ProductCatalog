@@ -121,15 +121,6 @@ class MysqlProductsRepository implements ProductsRepository
         $statement->execute([$product->getId()]);
     }
 
-    public function getCategoryName($categoryId)
-    {
-        $sql = "SELECT name FROM categories WHERE id = ?";
-        $statement = $this->connection->prepare($sql);
-        $statement->execute([$categoryId]);
-        $data = $statement->fetch(PDO::FETCH_ASSOC);
-        return $data['name'];
-    }
-
     public function getOneByName(string $name): ?Product
     {
         $sql = "SELECT * FROM products WHERE name = ?";

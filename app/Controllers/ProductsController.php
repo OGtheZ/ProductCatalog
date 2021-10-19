@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Exceptions\FormValidationException;
 use App\Models\Product;
+use App\Repositories\MysqlCategoriesRepository;
 use App\Repositories\MysqlProductsRepository;
 use App\Repositories\ProductsRepository;
 use App\Validators\AddProductFormValidator;
@@ -15,26 +16,32 @@ class ProductsController
 {
     private ProductsRepository $productsRepository;
     private Validators $validator;
+    private MysqlCategoriesRepository $categoriesRepository;
 
     public function __construct()
     {
         $this->productsRepository = new MysqlProductsRepository();
         $this->validator = new AddProductFormValidator();
+        $this->categoriesRepository = new MysqlCategoriesRepository();
     }
 
     public function list(): View
     {
         $products = $this->productsRepository->getAll()->getProducts();
+        $categories = $this->categoriesRepository->getAll();
 
         return new View('/products/list.twig', [
-            "products" => $products
+            "products" => $products,
+            "categories" => $categories
         ]);
     }
 
     public function addForm(): View
     {
         $errors = $_SESSION['errors'];
-        return new View('/products/addForm.twig', ['errors' => $errors]);
+        $categories = $this->categoriesRepository->getAll();
+
+        return new View('/products/addForm.twig', ['errors' => $errors, 'categories' => $categories]);
     }
 
     public function store(): void
@@ -43,7 +50,7 @@ class ProductsController
             $validator  = $this->validator;
             $validator->validate($_POST);
             $product = new Product($_POST['name'], Uuid::uuid4(), $_POST['categoryId'],
-                $this->productsRepository->getCategoryName($_POST['categoryId']), $_POST['quantity']);
+                $this->categoriesRepository->getCategoryName($_POST['categoryId']), $_POST['quantity']);
 
             $this->productsRepository->save($product);
 

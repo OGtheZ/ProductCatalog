@@ -22,6 +22,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('POST', '/', 'App\Controllers\UsersController@authorize');
     $r->addRoute('POST', '/logout', 'App\Controllers\UsersController@logout');
 
+    $r->addRoute('GET', '/categories/create', 'App\Controllers\CategoriesController@showAddForm');
+    $r->addRoute('POST', '/categories/create', 'App\Controllers\CategoriesController@store');
+
 
 });
 
