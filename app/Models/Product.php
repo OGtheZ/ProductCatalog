@@ -11,14 +11,17 @@ class Product
     private string $categoryId;
     private string $categoryName;
     private int $quantity;
+    private string $ownerId;
     private string $createdAt;
     private string $editedAt;
+
 
     public function __construct(string $name,
                                 string $id,
                                 string $categoryId,
                                 string $categoryName,
                                 int $quantity,
+                                string $ownerId,
                                 ?string $createdAt = null,
                                 ?string $editedAt = null
     )
@@ -28,8 +31,10 @@ class Product
         $this->categoryId = $categoryId;
         $this->categoryName = $categoryName;
         $this->quantity = $quantity;
+        $this->ownerId = $ownerId;
         $this->createdAt = $createdAt ?? Carbon::now();
         $this->editedAt = $editedAt ?? Carbon::now();
+
     }
 
     public function getName(): string
@@ -65,5 +70,10 @@ class Product
     public function getCategoryName(): string
     {
         return $this->categoryName;
+    }
+
+    public function getOwnerId(): string
+    {
+        return $this->ownerId;
     }
 }

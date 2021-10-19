@@ -25,9 +25,9 @@ class MysqlProductsRepository implements ProductsRepository
 
     function getAll(): ProductsCollection
     {
-        $sql = "SELECT * FROM products";
+        $sql = "SELECT * FROM products WHERE owner_id = ?";
         $statement = $this->connection->prepare($sql);
-        $statement->execute();
+        $statement->execute([$_SESSION['id']]);
         $products = $statement->fetchAll(PDO::FETCH_ASSOC);
         $collection = new ProductsCollection();
         foreach($products as $product)
@@ -38,6 +38,7 @@ class MysqlProductsRepository implements ProductsRepository
                 $product['category_id'],
                 $product['category_name'],
                 $product['quantity'],
+                $product['owner_id'],
                 $product['created_at'],
                 $product['edited_at'],
 
@@ -48,9 +49,9 @@ class MysqlProductsRepository implements ProductsRepository
 
     public function getByCategory(string $categoryId): ProductsCollection
     {
-        $sql = "SELECT * FROM products WHERE category_id = ?";
+        $sql = "SELECT * FROM products WHERE category_id = ? AND owner_id = ?";
         $statement = $this->connection->prepare($sql);
-        $statement->execute([$categoryId]);
+        $statement->execute([$categoryId, $_SESSION['id']]);
         $products = $statement->fetchAll(PDO::FETCH_ASSOC);
         $collection = new ProductsCollection();
         foreach($products as $product)
@@ -61,6 +62,7 @@ class MysqlProductsRepository implements ProductsRepository
                 $product['category_id'],
                 $product['category_name'],
                 $product['quantity'],
+                $product['owner_id'],
                 $product['created_at'],
                 $product['edited_at'],
             ));
@@ -70,8 +72,8 @@ class MysqlProductsRepository implements ProductsRepository
 
     public function save(Product $product): void
     {
-        $sql = "INSERT INTO products (name, id, category_id, category_name, quantity, created_at, edited_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO products (name, id, category_id, category_name, quantity, owner_id, created_at, edited_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $statement = $this->connection->prepare($sql);
         $statement->execute([
             $product->getName(),
@@ -79,6 +81,7 @@ class MysqlProductsRepository implements ProductsRepository
             $product->getCategoryId(),
             $product->getCategoryName(),
             $product->getQuantity(),
+            $product->getOwnerId(),
             $product->getCreatedAt(),
             $product->getEditedAt(),
         ]);
@@ -86,9 +89,9 @@ class MysqlProductsRepository implements ProductsRepository
 
     public function getOne(string $id): Product
     {
-        $sql = "SELECT * FROM products WHERE id = ?";
+        $sql = "SELECT * FROM products WHERE id = ? AND owner_id = ?";
         $statement = $this->connection->prepare($sql);
-        $statement->execute([$id]);
+        $statement->execute([$id, $_SESSION['id']]);
         $product = $statement->fetch();
 
         return new Product(
@@ -97,6 +100,7 @@ class MysqlProductsRepository implements ProductsRepository
             $product['category_id'],
             $product['category_name'],
             $product['quantity'],
+            $product['owner_id'],
             $product['created_at'],
             $product['edited_at'],
         );
@@ -123,9 +127,9 @@ class MysqlProductsRepository implements ProductsRepository
 
     public function getOneByName(string $name): ?Product
     {
-        $sql = "SELECT * FROM products WHERE name = ?";
+        $sql = "SELECT * FROM products WHERE name = ? AND owner_id = ?";
         $statement = $this->connection->prepare($sql);
-        $statement->execute([$name]);
+        $statement->execute([$name, $_SESSION['id']]);
         $data = $statement->fetch(PDO::FETCH_ASSOC);
         if($data === false) {
             return null;
@@ -135,6 +139,7 @@ class MysqlProductsRepository implements ProductsRepository
                 $data['category_id'],
                 $data['category_name'],
                 $data['quantity'],
+                $data['owner_id'],
                 $data['created_at'],
                 $data['edited_at']
             );

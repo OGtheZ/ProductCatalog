@@ -49,8 +49,14 @@ class ProductsController
         try {
             $validator  = $this->validator;
             $validator->validate($_POST);
-            $product = new Product($_POST['name'], Uuid::uuid4(), $_POST['categoryId'],
-                $this->categoriesRepository->getCategoryName($_POST['categoryId']), $_POST['quantity']);
+            $product = new Product(
+                $_POST['name'],
+                Uuid::uuid4(),
+                $_POST['categoryId'],
+                $this->categoriesRepository->getCategoryName($_POST['categoryId']),
+                $_POST['quantity'],
+                $_SESSION['id']
+            );
 
             $this->productsRepository->save($product);
 
