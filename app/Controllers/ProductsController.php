@@ -63,6 +63,7 @@ class ProductsController
         try {
             $validator  = $this->validator;
             $validator->validate($_POST);
+
             $product = new Product(
                 $_POST['name'],
                 Uuid::uuid4(),
@@ -71,6 +72,13 @@ class ProductsController
                 $_POST['quantity'],
                 $_SESSION['id']
             );
+            $tags = array_slice($_POST, 3);
+
+            foreach($tags as $tag)
+            {
+                $this->tagsRepository->assign($product->getId(), $tag);
+            }
+
 
             $this->productsRepository->save($product);
 

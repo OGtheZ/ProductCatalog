@@ -43,4 +43,19 @@ class MysqlTagsRepository
         }
         return $collection;
     }
+
+    public function assign($productId, $tagId): void
+    {
+        $sql = "INSERT INTO product_tag (product_id, tag_id) VALUES (?, ?)";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute([$productId, $tagId]);
+    }
+
+    public function getProductsTags($productId)
+        // TODO finish this to display products for each tag on /products page
+    {
+        $sql = "SELECT * FROM product_tag WHERE product_id = ?";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute([$productId]);
+    }
 }

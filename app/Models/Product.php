@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Collections\TagsCollection;
 use Carbon\Carbon;
 
 class Product
@@ -75,5 +76,12 @@ class Product
     public function getOwnerId(): string
     {
         return $this->ownerId;
+    }
+
+    public function getTags(): TagsCollection
+    {
+        $collection = new TagsCollection();
+
+
     }
 }
