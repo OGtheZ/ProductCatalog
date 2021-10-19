@@ -3,6 +3,9 @@
     <form action="/categories/create" method="get">
         <input type="submit" value="Add category">
     </form>
+    <form action="/tags/create" method="get">
+        <input type="submit" value="Add tag">
+    </form>
     <form action="/products/create" method="get">
         <input type="submit" value="Add product">
     </form>
@@ -18,7 +21,7 @@
     </form>
     {% for product in products %}
     <ul>
-        <li> {{ product.getName }} |
+        <li> <font size="+1">{{ product.getName }}</font> |
              Category: {{ product.getCategoryName }} |
              Quantity : {{ product.getQuantity }} |
              Added : {{ product.getCreatedAt }} |

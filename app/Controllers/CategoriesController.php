@@ -6,7 +6,6 @@ use App\Exceptions\FormValidationException;
 use App\Models\Category;
 use App\Repositories\MysqlCategoriesRepository;
 use App\Validators\AddCategoryFormValidator;
-use App\Validators\Validators;
 use App\Views\View;
 use Ramsey\Uuid\Uuid;
 

@@ -25,6 +25,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/categories/create', 'App\Controllers\CategoriesController@showAddForm');
     $r->addRoute('POST', '/categories/create', 'App\Controllers\CategoriesController@store');
 
+    $r->addRoute('GET', '/tags/create', 'App\Controllers\TagsController@addForm');
+    $r->addRoute('POST', '/tags/create', 'App\Controllers\TagsController@store');
+
 
 });
 

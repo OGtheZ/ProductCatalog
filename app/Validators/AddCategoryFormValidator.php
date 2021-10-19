@@ -5,7 +5,7 @@ namespace App\Validators;
 use App\Exceptions\FormValidationException;
 use App\Repositories\MysqlCategoriesRepository;
 
-class AddCategoryFormValidator implements Validators
+class AddCategoryFormValidator implements Validator
 {
     private array $errors = [];
     private MysqlCategoriesRepository $categoriesRepository;

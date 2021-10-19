@@ -6,7 +6,7 @@ use App\Repositories\MysqlUsersRepository;
 use App\Repositories\UsersRepository;
 use App\Exceptions\FormValidationException;
 
-class RegistrationFormValidator implements Validators
+class RegistrationFormValidator implements Validator
 {
     private array $errors = [];
     private UsersRepository $usersRepository;

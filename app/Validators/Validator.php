@@ -2,7 +2,7 @@
 
 namespace App\Validators;
 
-interface Validators
+interface Validator
 {
     public function validate(array $vars): void;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\ConfigGetter;
 use App\Models\Collections\ProductsCollection;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -15,7 +16,7 @@ class MysqlProductsRepository implements ProductsRepository
 
     public function __construct()
     {
-        $config = json_decode(file_get_contents("config.json"), true);
+        $config = ConfigGetter::getConfig();
         $dsn = "mysql:host={$config["host"]};dbname={$config["db"]};charset=UTF8";
         try {
             $this->connection = new PDO($dsn, $config["user"], $config["password"]);

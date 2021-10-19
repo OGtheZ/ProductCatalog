@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\ConfigGetter;
 use App\Models\User;
 use PDO;
 use PDOException;
@@ -13,7 +14,7 @@ class MysqlUsersRepository implements UsersRepository
 
     public function __construct()
     {
-        $config = json_decode(file_get_contents("config.json"), true);
+        $config = ConfigGetter::getConfig();
         $dsn = "mysql:host={$config["host"]};dbname={$config["db"]};charset=UTF8";
         try {
             $this->connection = new PDO($dsn, $config["user"], $config["password"]);

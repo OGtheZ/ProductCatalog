@@ -1,0 +1,12 @@
+{% extends "app.twig" %}
+{% block content %}
+
+<a href="/products">Back</a><br>
+
+    <form action="/tags/create" method="post">
+        <label for="name">Tag name</label>
+        <input type="text" id="name" name="name">
+        <input type="submit" value="Add">
+    </form>
+
+{% endblock %}

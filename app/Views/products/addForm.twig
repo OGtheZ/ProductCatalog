@@ -18,7 +18,11 @@
             <option value="{{ category.getId }}">{{ category.getName }}</option>
             {% endfor %}
         </select>
-
+        <br>
+        {% for tag in tags %}
+            <input type="checkbox" id="{{ tag.getName }}" name="{{ tag.getName }}" value="tag.getId">
+            <label for="{{ tag.getName }}">{{ tag.getName }}</label><br>
+        {% endfor %}
         <br>
         <label for="quantity">Quantity:</label>
         <input type="text" id="quantity" name="quantity" required><br>

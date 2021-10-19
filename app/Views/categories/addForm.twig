@@ -4,7 +4,7 @@
     <a href="/products">Back</a><br>
 
     {% for error in errors %}
-    <p style="color: red; border: darkgreen">{{ error }}</p>
+    <p class="error" style="color: red; border: darkgreen">{{ error }}</p>
     {% endfor %}
 
     <form action="/categories/create" method="post">

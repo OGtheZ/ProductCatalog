@@ -6,23 +6,26 @@ use App\Exceptions\FormValidationException;
 use App\Models\Product;
 use App\Repositories\MysqlCategoriesRepository;
 use App\Repositories\MysqlProductsRepository;
+use App\Repositories\MysqlTagsRepository;
 use App\Repositories\ProductsRepository;
 use App\Validators\AddProductFormValidator;
-use App\Validators\Validators;
+use App\Validators\Validator;
 use App\Views\View;
 use Ramsey\Uuid\Uuid;
 
 class ProductsController
 {
     private ProductsRepository $productsRepository;
-    private Validators $validator;
+    private Validator $validator;
     private MysqlCategoriesRepository $categoriesRepository;
+    private MysqlTagsRepository $tagsRepository;
 
     public function __construct()
     {
         $this->productsRepository = new MysqlProductsRepository();
         $this->validator = new AddProductFormValidator();
         $this->categoriesRepository = new MysqlCategoriesRepository();
+        $this->tagsRepository = new MysqlTagsRepository();
     }
 
     public function list(): View
@@ -31,7 +34,7 @@ class ProductsController
             header("Location: /");
         }
         $products = $this->productsRepository->getAll()->getProducts();
-        $categories = $this->categoriesRepository->getAll();
+        $categories = $this->categoriesRepository->getAll()->getCategories();
 
         return new View('/products/list.twig', [
             "products" => $products,
@@ -45,9 +48,14 @@ class ProductsController
             header("Location: /");
         }
         $errors = $_SESSION['errors'];
-        $categories = $this->categoriesRepository->getAll();
+        $categories = $this->categoriesRepository->getAll()->getCategories();
+        $tags = $this->tagsRepository->getAll()->getTags();
 
-        return new View('/products/addForm.twig', ['errors' => $errors, 'categories' => $categories]);
+        return new View('/products/addForm.twig', [
+            'errors' => $errors,
+            'categories' => $categories,
+            'tags' => $tags
+        ]);
     }
 
     public function store(): void
@@ -84,7 +92,7 @@ class ProductsController
         if ($id == null) header("Location: /products");
 
         $product = $this->productsRepository->getOne($id);
-        $categories = $this->categoriesRepository->getAll();
+        $categories = $this->categoriesRepository->getAll()->getCategories();
 
         return new View('/products/editForm.twig', [
             'product' => $product, 'categories' => $categories

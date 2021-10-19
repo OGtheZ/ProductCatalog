@@ -6,7 +6,7 @@ use App\Exceptions\FormValidationException;
 use App\Repositories\MysqlProductsRepository;
 use App\Repositories\ProductsRepository;
 
-class AddProductFormValidator implements Validators
+class AddProductFormValidator implements Validator
 {
     private array $errors = [];
     private ProductsRepository $productsRepository;

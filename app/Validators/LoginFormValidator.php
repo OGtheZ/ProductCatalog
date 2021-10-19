@@ -6,7 +6,7 @@ use App\Exceptions\FormValidationException;
 use App\Repositories\MysqlUsersRepository;
 use App\Repositories\UsersRepository;
 
-class LoginFormValidator implements Validators
+class LoginFormValidator implements Validator
 {
     private array $errors = [];
     private UsersRepository $usersRepository;

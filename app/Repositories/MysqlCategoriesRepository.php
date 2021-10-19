@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\ConfigGetter;
 use App\Models\Category;
+use App\Models\Collections\CategoriesCollection;
 use PDO;
 use PDOException;
 
@@ -12,7 +14,7 @@ class MysqlCategoriesRepository
 
     public function __construct()
     {
-        $config = json_decode(file_get_contents("config.json"), true);
+        $config = ConfigGetter::getConfig();
         $dsn = "mysql:host={$config["host"]};dbname={$config["db"]};charset=UTF8";
         try {
             $this->connection = new PDO($dsn, $config["user"], $config["password"]);
@@ -28,9 +30,9 @@ class MysqlCategoriesRepository
         $statement->execute([$category->getId(), $category->getName()]);
     }
 
-    public function getAll(): array
+    public function getAll(): CategoriesCollection
     {
-        $categories = [];
+        $categories = new CategoriesCollection();
         $sql = "SELECT * FROM categories";
         $statement = $this->connection->prepare($sql);
         $statement->execute();
@@ -38,7 +40,7 @@ class MysqlCategoriesRepository
 
         foreach ($data as $row)
         {
-            $categories[] = new Category($row['id'], $row['name']);
+            $categories->add(new Category($row['id'], $row['name']));
         }
         return $categories;
     }
