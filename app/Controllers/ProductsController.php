@@ -30,9 +30,6 @@ class ProductsController
 
     public function list(): View
     {
-        if(!isset($_SESSION['id'])){
-            header("Location: /");
-        }
         $products = $this->productsRepository->getAll()->getProducts();
         $categories = $this->categoriesRepository->getAll()->getCategories();
 
@@ -44,9 +41,6 @@ class ProductsController
 
     public function addForm(): View
     {
-        if(!isset($_SESSION['id'])){
-            header("Location: /");
-        }
         $errors = $_SESSION['errors'];
         $categories = $this->categoriesRepository->getAll()->getCategories();
         $tags = $this->tagsRepository->getAll()->getTags();

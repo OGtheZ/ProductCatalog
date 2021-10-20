@@ -58,6 +58,31 @@ switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
+
+        $middlewares = [
+            'App\Controllers\ProductsController@list',
+            'App\Controllers\ProductsController@addForm',
+            'App\Controllers\ProductsController@store',
+            'App\Controllers\ProductsController@editForm',
+            'App\Controllers\ProductsController@edit',
+            'App\Controllers\ProductsController@removeConfirmation',
+            'App\Controllers\ProductsController@remove',
+            'App\Controllers\ProductsController@searchByCategory',
+
+            'App\Controllers\UsersController@logout',
+
+            'App\Controllers\CategoriesController@showAddForm',
+            'App\Controllers\CategoriesController@store',
+
+            'App\Controllers\TagsController@addForm',
+            'App\Controllers\TagsController@store'
+        ];
+
+        if(in_array($handler, $middlewares)){
+            $middleware = new \App\Middlewares\AuthorizationMiddleware();
+            $middleware->handle();
+        }
+
         [$controller, $method] = explode("@", $handler);
         $controller = new $controller;
         $response = $controller->$method($vars);

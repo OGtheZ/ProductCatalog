@@ -22,9 +22,6 @@ class CategoriesController
 
     public function showAddForm(): View
     {
-        if(!isset($_SESSION['id'])){
-            header("Location: /");
-        }
         $errors = $_SESSION['errors'];
         return new View('/categories/addForm.twig', ["errors" => $errors]);
     }

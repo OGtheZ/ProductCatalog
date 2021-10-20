@@ -51,8 +51,7 @@ class MysqlTagsRepository
         $statement->execute([$productId, $tagId]);
     }
 
-    public function getProductsTags($productId)
-        // TODO finish this to display tags for each product on /products page
+    public function getProductsTags($productId): string
     {
         $sql = "SELECT tag_id FROM product_tag WHERE product_id = ?";
         $statement = $this->connection->prepare($sql);

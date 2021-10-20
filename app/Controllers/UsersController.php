@@ -27,10 +27,6 @@ class UsersController
 
     public function login(): View
     {
-        if(isset($_SESSION['id'])){
-            header("Location: /products");
-            exit;
-        }
         $errors = $_SESSION['errors'];
         return new View('/users/login.twig', ['errors' => $errors]);
     }
