@@ -1,5 +1,6 @@
 {% extends "app.twig" %}
 {% block content %}
+    <div id="buttonPanel">
     <form action="/categories/create" method="get">
         <input type="submit" value="Add category">
     </form>
@@ -9,6 +10,8 @@
     <form action="/products/create" method="get">
         <input type="submit" value="Add product">
     </form>
+    </div>
+    <br>
     <form action="/products/category" method="post">
         <label for="categoryId">Category search</label>
         <select name="categoryId" id="categoryId">
@@ -19,6 +22,7 @@
         </select>
         <input type="submit" value="Search">
     </form>
+    <br>
     {% for product in products %}
     <ul>
         <li> <font size="+1">{{ product.getName }}</font> |

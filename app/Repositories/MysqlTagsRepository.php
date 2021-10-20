@@ -79,4 +79,18 @@ class MysqlTagsRepository
         }
         return $tagNames;
     }
+
+    public function getOne(string $name): ?Tag
+    {
+        $sql = "SELECT * FROM tags WHERE name = ?";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute([$name]);
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        if ($data === false){
+            return null;
+        } else {
+            $tag = new Tag($data['id'], $data['name']);
+            return $tag;
+        }
+    }
 }

@@ -3,10 +3,14 @@
 
 <a href="/products">Back</a><br>
 
+    {% for error in errors %}
+        <p class="error" style="color: red; border: darkgreen">{{ error }}</p>
+    {% endfor %}
+
     <form action="/tags/create" method="post">
         <label for="name">Tag name</label>
         <input type="text" id="name" name="name">
-        <input type="submit" value="Add">
+        <button type="submit">Add</button>
     </form>
 
 {% endblock %}

@@ -8,12 +8,24 @@
     <title>Product Catalog</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
+        #buttonPanel {
+        }
         body {
             text-align: left;
             padding-left: 20px;
             padding-top: 20px;
         }
-        p {
+        button {
+            width: 7%;
+            background-color: #04AA6D;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        p.error {
             background-color: black;
             width: 15%;
         }
@@ -72,9 +84,11 @@
 </head>
 <body>
 {% if id is not empty %}
+    <div id="buttonPanel">
 <form action="/logout" method="post">
     <input type="submit" value="Logout">
 </form>
+    </div>
 {% endif %}
 {% block content %} {% endblock %}
 </body>
