@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Collections\TagsCollection;
+use App\Repositories\MysqlTagsRepository;
 use Carbon\Carbon;
 
 class Product
@@ -15,6 +16,7 @@ class Product
     private string $ownerId;
     private string $createdAt;
     private string $editedAt;
+    private MysqlTagsRepository $tagsRepository;
 
 
     public function __construct(string $name,
@@ -35,6 +37,7 @@ class Product
         $this->ownerId = $ownerId;
         $this->createdAt = $createdAt ?? Carbon::now();
         $this->editedAt = $editedAt ?? Carbon::now();
+        $this->tagsRepository = new MysqlTagsRepository();
 
     }
 
@@ -78,10 +81,9 @@ class Product
         return $this->ownerId;
     }
 
-    public function getTags(): TagsCollection
+    public function getTags()
+        // TODO finish this to display tags for each product on /products page
     {
-        $collection = new TagsCollection();
-
-
+        return $this->tagsRepository->getProductsTags($this->id);
     }
 }

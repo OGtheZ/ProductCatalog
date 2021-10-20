@@ -25,7 +25,8 @@
              Category: {{ product.getCategoryName }} |
              Quantity : {{ product.getQuantity }} |
              Added : {{ product.getCreatedAt }} |
-             Last edited : {{ product.getEditedAt }}
+             Last edited : {{ product.getEditedAt }} |
+             Tags : {{ product.getTags }} |
         </li>
     </ul>
         <a href="/products/{{ product.getId }}/edit">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

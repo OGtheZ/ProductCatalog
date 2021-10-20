@@ -52,10 +52,32 @@ class MysqlTagsRepository
     }
 
     public function getProductsTags($productId)
-        // TODO finish this to display products for each tag on /products page
+        // TODO finish this to display tags for each product on /products page
     {
-        $sql = "SELECT * FROM product_tag WHERE product_id = ?";
+        $sql = "SELECT tag_id FROM product_tag WHERE product_id = ?";
         $statement = $this->connection->prepare($sql);
         $statement->execute([$productId]);
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $response = [];
+        foreach ($data as $row) {
+            foreach ($row as $tag) {
+                $response[] = $tag;
+            }
+        }
+
+        $tagNames = '';
+        foreach ($response as $tag) {
+            $sql = "SELECT name FROM tags WHERE id IN (?)";
+            $statement = $this->connection->prepare($sql);
+            $statement->execute([$tag]);
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($data as $row) {
+                foreach($row as $name)
+                {
+                    $tagNames .= " | $name |";
+                }
+            }
+        }
+        return $tagNames;
     }
 }
