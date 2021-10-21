@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Container;
 use App\Models\User;
 use App\Repositories\MysqlUsersRepository;
 use App\Repositories\UsersRepository;
@@ -18,9 +19,9 @@ class UsersController
     private RegistrationFormValidator $regValidator;
     private LoginFormValidator $loginValidator;
 
-    public function __construct()
+    public function __construct(Container $container)
     {
-        $this->usersRepository = new MysqlUsersRepository();
+        $this->usersRepository = $container->get(UsersRepository::class);
         $this->regValidator = new RegistrationFormValidator();
         $this->loginValidator = new LoginFormValidator();
     }

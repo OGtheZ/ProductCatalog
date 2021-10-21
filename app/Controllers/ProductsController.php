@@ -2,12 +2,15 @@
 
 namespace App\Controllers;
 
+use App\Container;
 use App\Exceptions\FormValidationException;
 use App\Models\Product;
+use App\Repositories\CategoriesRepository;
 use App\Repositories\MysqlCategoriesRepository;
 use App\Repositories\MysqlProductsRepository;
 use App\Repositories\MysqlTagsRepository;
 use App\Repositories\ProductsRepository;
+use App\Repositories\TagsRepository;
 use App\Validators\AddProductFormValidator;
 use App\Validators\Validator;
 use App\Views\View;
@@ -20,12 +23,12 @@ class ProductsController
     private MysqlCategoriesRepository $categoriesRepository;
     private MysqlTagsRepository $tagsRepository;
 
-    public function __construct()
+    public function __construct(Container $container)
     {
-        $this->productsRepository = new MysqlProductsRepository();
+        $this->productsRepository = $container->get(ProductsRepository::class);
         $this->validator = new AddProductFormValidator();
-        $this->categoriesRepository = new MysqlCategoriesRepository();
-        $this->tagsRepository = new MysqlTagsRepository();
+        $this->categoriesRepository = $container->get(CategoriesRepository::class);
+        $this->tagsRepository = $container->get(TagsRepository::class);
     }
 
     public function list(): View

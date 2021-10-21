@@ -8,7 +8,7 @@ use App\Models\Tag;
 use PDO;
 use PDOException;
 
-class MysqlTagsRepository
+class MysqlTagsRepository implements TagsRepository
 {
     private PDO $connection;
 

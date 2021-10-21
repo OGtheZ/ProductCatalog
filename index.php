@@ -82,9 +82,9 @@ switch ($routeInfo[0]) {
             $middleware = new \App\Middlewares\AuthorizationMiddleware();
             $middleware->handle();
         }
-
+        $container = new \App\Container();
         [$controller, $method] = explode("@", $handler);
-        $controller = new $controller;
+        $controller = new $controller($container);
         $response = $controller->$method($vars);
 
         if ($response instanceof View)

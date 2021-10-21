@@ -2,9 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Container;
 use App\Exceptions\FormValidationException;
 use App\Models\Tag;
 use App\Repositories\MysqlTagsRepository;
+use App\Repositories\TagsRepository;
 use App\Validators\AddTagFormValidator;
 use App\Validators\Validator;
 use App\Views\View;
@@ -15,9 +17,9 @@ class TagsController
     private MysqlTagsRepository $tagsRepository;
     private Validator $addTagFormValidator;
 
-    public function __construct()
+    public function __construct(Container $container)
     {
-        $this->tagsRepository = new MysqlTagsRepository();
+        $this->tagsRepository = $container->get(TagsRepository::class);
         $this->addTagFormValidator = new AddTagFormValidator();
     }
 

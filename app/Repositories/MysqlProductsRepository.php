@@ -122,7 +122,7 @@ class MysqlProductsRepository implements ProductsRepository
             ]);
     }
 
-    public function remove(Product $product)
+    public function remove(Product $product): void
     {
         $sql = "DELETE FROM products WHERE id = ?";
         $statement = $this->connection->prepare($sql);

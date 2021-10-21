@@ -8,7 +8,7 @@ use App\Models\Collections\CategoriesCollection;
 use PDO;
 use PDOException;
 
-class MysqlCategoriesRepository
+class MysqlCategoriesRepository implements CategoriesRepository
 {
     private PDO $connection;
 
@@ -23,7 +23,7 @@ class MysqlCategoriesRepository
         }
     }
 
-    public function save(Category $category)
+    public function save(Category $category): void
     {
         $sql = "INSERT INTO categories (id , name) VALUES (?, ?)";
         $statement = $this->connection->prepare($sql);
@@ -45,7 +45,7 @@ class MysqlCategoriesRepository
         return $categories;
     }
 
-    public function getCategoryName($categoryId)
+    public function getCategoryName($categoryId): string
     {
         $sql = "SELECT name FROM categories WHERE id = ?";
         $statement = $this->connection->prepare($sql);

@@ -14,4 +14,10 @@ interface ProductsRepository
     public function save(Product $product): void;
 
     public function getOne(string $id): Product;
+
+    public function edit(Product $product): void;
+
+    public function remove(Product $product): void;
+
+    public function getOneByName(string $name): ?Product;
 }

@@ -6,7 +6,6 @@ use App\ConfigGetter;
 use App\Models\User;
 use PDO;
 use PDOException;
-use Symfony\Component\Translation\Exception\ProviderException;
 
 class MysqlUsersRepository implements UsersRepository
 {

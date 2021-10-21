@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Container;
 use App\Exceptions\FormValidationException;
 use App\Models\Category;
+use App\Repositories\CategoriesRepository;
 use App\Repositories\MysqlCategoriesRepository;
 use App\Validators\AddCategoryFormValidator;
 use App\Views\View;
@@ -14,9 +16,9 @@ class CategoriesController
     private MysqlCategoriesRepository $categoriesRepository;
     private AddCategoryFormValidator $addCategoryFormValidator;
 
-    public function __construct()
+    public function __construct(Container $container)
     {
-        $this->categoriesRepository = new MysqlCategoriesRepository();
+        $this->categoriesRepository = $container->get(CategoriesRepository::class);
         $this->addCategoryFormValidator = new AddCategoryFormValidator();
     }
 
