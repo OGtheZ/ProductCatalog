@@ -82,11 +82,10 @@ switch ($routeInfo[0]) {
             $middleware = new \App\Middlewares\AuthorizationMiddleware();
             $middleware->handle();
         }
-        $container = new \App\Container();
+        $container = new \DI\Container();
         [$controller, $method] = explode("@", $handler);
-        $controller = new $controller($container);
+        $controller = $container->get($controller);
         $response = $controller->$method($vars);
-
         if ($response instanceof View)
         {
             echo $templateLoader->render($response->getTemplate(), $response->getVariables());

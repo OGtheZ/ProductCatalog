@@ -19,11 +19,13 @@ class UsersController
     private RegistrationFormValidator $regValidator;
     private LoginFormValidator $loginValidator;
 
-    public function __construct(Container $container)
+    public function __construct(MysqlUsersRepository $usersRepository,
+                                RegistrationFormValidator $regValidator,
+                                LoginFormValidator $loginValidator)
     {
-        $this->usersRepository = $container->get(UsersRepository::class);
-        $this->regValidator = new RegistrationFormValidator();
-        $this->loginValidator = new LoginFormValidator();
+        $this->usersRepository = $usersRepository;
+        $this->regValidator = $regValidator;
+        $this->loginValidator = $loginValidator;
     }
 
     public function login(): View

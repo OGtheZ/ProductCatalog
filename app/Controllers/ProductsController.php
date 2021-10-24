@@ -23,12 +23,15 @@ class ProductsController
     private MysqlCategoriesRepository $categoriesRepository;
     private MysqlTagsRepository $tagsRepository;
 
-    public function __construct(Container $container)
+    public function __construct(MysqlProductsRepository $productsRepository,
+                                MysqlCategoriesRepository $categoriesRepository,
+                                MysqlTagsRepository $tagsRepository,
+                                AddProductFormValidator $validator)
     {
-        $this->productsRepository = $container->get(ProductsRepository::class);
-        $this->validator = new AddProductFormValidator();
-        $this->categoriesRepository = $container->get(CategoriesRepository::class);
-        $this->tagsRepository = $container->get(TagsRepository::class);
+        $this->productsRepository = $productsRepository;
+        $this->validator = $validator;
+        $this->categoriesRepository = $categoriesRepository;
+        $this->tagsRepository = $tagsRepository;
     }
 
     public function list(): View

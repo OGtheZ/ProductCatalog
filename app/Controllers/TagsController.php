@@ -17,10 +17,11 @@ class TagsController
     private MysqlTagsRepository $tagsRepository;
     private Validator $addTagFormValidator;
 
-    public function __construct(Container $container)
+    public function __construct(MysqlTagsRepository $tagsRepository,
+                                AddTagFormValidator $addTagFormValidator)
     {
-        $this->tagsRepository = $container->get(TagsRepository::class);
-        $this->addTagFormValidator = new AddTagFormValidator();
+        $this->tagsRepository = $tagsRepository;
+        $this->addTagFormValidator = $addTagFormValidator;
     }
 
     public function addForm(): View
