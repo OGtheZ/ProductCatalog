@@ -1,0 +1,23 @@
+{% extends "app.twig" %}
+{% block content %}
+    <a href="/products">Back to all</a><br>
+    <form action="/products/create" method="get">
+        <input type="submit" value="Add">
+    </form>
+
+    {% for product in products %}
+        <ul>
+            <li> {{ product.getName }} |
+                Category : {{ product.getCategory }} |
+                Quantity : {{ product.getQuantity }} |
+                Added : {{ product.getCreatedAt }} |
+                Last edited : {{ product.getEditedAt }}
+            </li>
+        </ul>
+        <a href="/products/{{ product.getId }}/edit">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/products/{{ product.getId }}/remove">Remove</a>
+        <br>
+    {% endfor %}
+
+
+{% endblock %}

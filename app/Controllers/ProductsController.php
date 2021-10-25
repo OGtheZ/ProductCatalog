@@ -38,10 +38,12 @@ class ProductsController
     {
         $products = $this->productsRepository->getAll()->getProducts();
         $categories = $this->categoriesRepository->getAll()->getCategories();
+        $tags = $this->tagsRepository->getAll()->getTags();
 
         return new View('/products/list.twig', [
             "products" => $products,
-            "categories" => $categories
+            "categories" => $categories,
+            "tags" => $tags
         ]);
     }
 
@@ -93,9 +95,6 @@ class ProductsController
 
     public function editForm(array $vars): View
     {
-        if(!isset($_SESSION['id'])){
-            header("Location: /");
-        }
         $id = $vars['id'] ?? null;
         if ($id == null) header("Location: /products");
 
@@ -119,9 +118,6 @@ class ProductsController
 
     public function removeConfirmation(array $vars): view
     {
-        if(!isset($_SESSION['id'])){
-            header("Location: /");
-        }
         $id = $vars['id'] ?? null;
 
         $product = $this->productsRepository->getOne($id);
@@ -141,11 +137,15 @@ class ProductsController
 
     public function searchByCategory(): View
     {
-        if(!isset($_SESSION['id'])){
-            header("Location: /");
-        }
         $categoryId = $_POST['categoryId'];
         $products = $this->productsRepository->getByCategory($categoryId)->getProducts();
         return new View('/products/categoryView.twig', ["products" => $products]);
+    }
+
+    public function searchByTag(): view
+    {
+        $tagId = $_POST['tagId'];
+        $products = $this->tagsRepository->getTagProducts($tagId)->getProducts();
+        return new View('/products/tagView.twig', ["products" => $products]);
     }
 }

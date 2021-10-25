@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\ConfigGetter;
+use App\Models\Collections\ProductsCollection;
 use App\Models\Collections\TagsCollection;
 use App\Models\Tag;
 use PDO;
@@ -11,8 +12,9 @@ use PDOException;
 class MysqlTagsRepository implements TagsRepository
 {
     private PDO $connection;
+    private MysqlProductsRepository $productsRepository;
 
-    public function __construct()
+    public function __construct(MysqlProductsRepository $productsRepository)
     {
         $config = ConfigGetter::getConfig();
         $dsn = "mysql:host={$config["host"]};dbname={$config["db"]};charset=UTF8";
@@ -21,6 +23,7 @@ class MysqlTagsRepository implements TagsRepository
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(), (int)$e->getCode());
         }
+        $this->productsRepository = $productsRepository;
     }
 
     public function save(Tag $tag): void
@@ -51,7 +54,7 @@ class MysqlTagsRepository implements TagsRepository
         $statement->execute([$productId, $tagId]);
     }
 
-    public function getProductsTags($productId): string
+    public function getProductsTags(string $productId): string
     {
         $sql = "SELECT tag_id FROM product_tag WHERE product_id = ?";
         $statement = $this->connection->prepare($sql);
@@ -92,5 +95,23 @@ class MysqlTagsRepository implements TagsRepository
             $tag = new Tag($data['id'], $data['name']);
             return $tag;
         }
+    }
+
+    public function getTagProducts(string $id): ProductsCollection
+    {
+        $sql = "SELECT product_id FROM product_tag WHERE tag_id = ?";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute([$id]);
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $collection = new ProductsCollection();
+        foreach($result as $data)
+        {
+            foreach($data as $row)
+            {
+                $product = $this->productsRepository->getOne($row);
+                $collection->add($product);
+            }
+        }
+        return $collection;
     }
 }

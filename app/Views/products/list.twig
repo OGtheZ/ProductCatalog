@@ -22,6 +22,16 @@
         </select>
         <input type="submit" value="Search">
     </form>
+    <form action="/products/tag" method="post">
+        <label for="tagId">Tag search</label>
+        <select name="tagId" id="tagId">
+            <option disabled selected value> -- select an option -- </option>
+            {% for tag in tags %}
+                <option value="{{ tag.getId }}">{{ tag.getName }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Search">
+    </form>
     <br>
     {% for product in products %}
     <ul>

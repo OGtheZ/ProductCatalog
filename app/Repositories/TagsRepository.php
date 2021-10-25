@@ -13,7 +13,7 @@ interface TagsRepository
 
     public function assign($productId, $tagId): void;
 
-    public function getProductsTags($productId): string;
+    public function getProductsTags(string $productId): string;
 
     public function getOne(string $name): ?Tag;
 }

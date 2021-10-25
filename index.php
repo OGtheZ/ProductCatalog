@@ -15,6 +15,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/products/{id}/remove', 'App\Controllers\ProductsController@removeConfirmation');
     $r->addRoute('POST', '/products/{id}/remove', 'App\Controllers\ProductsController@remove');
     $r->addRoute('POST', '/products/category', 'App\Controllers\ProductsController@searchByCategory');
+    $r->addRoute('POST', '/products/tag', 'App\Controllers\ProductsController@searchByTag');
 
     $r->addRoute('GET', '/', 'App\Controllers\UsersController@login');
     $r->addRoute('GET', '/register', 'App\Controllers\UsersController@showRegisterForm');
