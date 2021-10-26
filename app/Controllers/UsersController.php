@@ -2,10 +2,11 @@
 
 namespace App\Controllers;
 
-use App\Container;
 use App\Models\User;
 use App\Repositories\MysqlUsersRepository;
 use App\Repositories\UsersRepository;
+use App\Services\Users\RegisterUserRequest;
+use App\Services\Users\RegisterUserService;
 use App\Validators\LoginFormValidator;
 use App\Validators\RegistrationFormValidator;
 use App\Views\View;
@@ -16,16 +17,20 @@ use Ramsey\Uuid\Uuid;
 class UsersController
 {
     private UsersRepository $usersRepository;
-    private RegistrationFormValidator $regValidator;
     private LoginFormValidator $loginValidator;
+    private RegisterUserService $registerUserService;
+    private RegistrationFormValidator $registrationFormValidator;
 
     public function __construct(MysqlUsersRepository $usersRepository,
-                                RegistrationFormValidator $regValidator,
-                                LoginFormValidator $loginValidator)
+                                LoginFormValidator $loginValidator,
+                                RegisterUserService $registerUserService,
+                                RegistrationFormValidator $registrationFormValidator
+                                )
     {
         $this->usersRepository = $usersRepository;
-        $this->regValidator = $regValidator;
         $this->loginValidator = $loginValidator;
+        $this->registerUserService = $registerUserService;
+        $this->registrationFormValidator = $registrationFormValidator;
     }
 
     public function login(): View
@@ -43,24 +48,17 @@ class UsersController
     public function register()
     {
         try {
-            $this->regValidator->validate($_POST);
-
-            $user = new User(
-                Uuid::uuid4(),
-                $_POST['email'],
-                $_POST['username'],
-                password_hash($_POST['password'], PASSWORD_DEFAULT),
-                Carbon::now()
-            );
-
-            $this->usersRepository->save($user);
-
+            $this->registrationFormValidator->validate($_POST);
+            $request = new RegisterUserRequest($_POST['email'], $_POST['username'], $_POST['password']);
+            $this->registerUserService->execute($request);
             header("Location: /");
-        } catch (FormValidationException $e) {
-            $_SESSION['errors'] = $this->regValidator->getErrors();
-            header("Location: /register");
+        } catch (FormValidationException $exception)
+        {
+            $_SESSION['errors'] = $this->registrationFormValidator->getErrors();
+            header("Location: /");
             exit;
         }
+
     }
 
     public function authorize(): void

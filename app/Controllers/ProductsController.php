@@ -2,15 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Container;
 use App\Exceptions\FormValidationException;
 use App\Models\Product;
-use App\Repositories\CategoriesRepository;
 use App\Repositories\MysqlCategoriesRepository;
 use App\Repositories\MysqlProductsRepository;
 use App\Repositories\MysqlTagsRepository;
 use App\Repositories\ProductsRepository;
-use App\Repositories\TagsRepository;
 use App\Validators\AddProductFormValidator;
 use App\Validators\Validator;
 use App\Views\View;
